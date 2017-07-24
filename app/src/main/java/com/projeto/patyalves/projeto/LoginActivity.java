@@ -5,8 +5,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -26,16 +24,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnLogin)
     public void doLogin(View v){
-        Toast.makeText(this,tilLogin.getEditText().getText().toString(),Toast.LENGTH_SHORT).show();
+        String login = tilLogin.getEditText().getText().toString();
+        String password = tilSenha.getEditText().getText().toString();
+        Toast.makeText(v.getContext(),login + password,Toast.LENGTH_SHORT).show();
 
-        /*if(tilLogin.getEditText().getText().toString().equals("paty")){
-            Intent intent=new Intent(this,MainActivity.class );
-            startActivity(intent);
+        if(login.equals("paty")){
+            startActivity(new Intent(v.getContext(), MainActivity.class));
             finish();
         }else{
-            Toast.makeText(this,"Login ou senha incorretos",Toast.LENGTH_SHORT).show();
-
-        }*/
+            // exemplo no textinput
+            tilLogin.setError("usuário errado.");
+            // exemplo no próprio edittext
+            tilSenha.getEditText().setError("senha errada");
+        }
 
 
     }
