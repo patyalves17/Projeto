@@ -21,7 +21,7 @@ public class InicialActivity extends AppCompatActivity {
     @OnClick(R.id.goToLogin)
     public void goToLogin(View v){
             startActivity(new Intent(v.getContext(), LoginActivity.class));
-           // finish();
+            finish();
     }
 
 

@@ -26,17 +26,20 @@ public class LoginActivity extends AppCompatActivity {
     public void doLogin(View v){
         String login = tilLogin.getEditText().getText().toString();
         String password = tilSenha.getEditText().getText().toString();
-        Toast.makeText(v.getContext(),login + password,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(v.getContext(),login + password,Toast.LENGTH_SHORT).show();
 
-        if(login.equals("paty")){
-            startActivity(new Intent(v.getContext(), MainActivity.class));
-            finish();
-        }else{
-            // exemplo no textinput
-            tilLogin.setError("usuário errado.");
-            // exemplo no próprio edittext
-            tilSenha.getEditText().setError("senha errada");
+        if(!login.equals("") && !password.equals("") ){
+            if(login.equals("paty")&& password.equals("123")){
+                startActivity(new Intent(v.getContext(), MainActivity.class));
+                finish();
+            }else{
+                // exemplo no textinput
+                tilLogin.setError("usuário errado.");
+                // exemplo no próprio edittext
+                tilSenha.getEditText().setError("senha errada");
+            }
         }
+
 
 
     }
