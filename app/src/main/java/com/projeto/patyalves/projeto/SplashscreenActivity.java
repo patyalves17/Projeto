@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.projeto.patyalves.projeto.Util.DBHandler;
 import com.projeto.patyalves.projeto.api.ApiUtils;
 import com.projeto.patyalves.projeto.api.UserAPI;
 import com.projeto.patyalves.projeto.model.User;
@@ -31,11 +32,13 @@ public class SplashscreenActivity extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH=2000;
     private ArrayList<User>users=new ArrayList<>();
     private UserAPI mService;
+    private DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
+        db=new DBHandler(this);
 
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.splash_animation);
         animation.reset();
@@ -118,9 +121,13 @@ public class SplashscreenActivity extends AppCompatActivity {
 
                     String user=json.getString("usuario");
                     String password=json.getString("senha");
+                    db.addOnce(new User(user,password));
+
 
                     Log.i("User", user);
                     Log.i("Password",password);
+                    Log.i("Count", String.valueOf(db.getUsersCount()));
+                    Log.i("User",db.getUser(1).getUser());
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
