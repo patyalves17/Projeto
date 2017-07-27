@@ -77,6 +77,20 @@ public class DBHandler  extends SQLiteOpenHelper {
         return contact;
     }
 
+    // Getting one user
+    public boolean login(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
+                        KEY_USER, KEY_PASSWORD}, KEY_USER + "=? AND "+KEY_PASSWORD+"=?" ,
+                new String[]{user.getUser(),user.getPassword()}, null, null, null, null);
+        if (cursor.getCount()>0) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     // Getting All Users
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<User>();

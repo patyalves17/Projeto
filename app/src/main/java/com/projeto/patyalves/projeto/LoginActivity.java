@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.projeto.patyalves.projeto.Util.DBHandler;
+import com.projeto.patyalves.projeto.model.User;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -15,11 +18,14 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tilLogin) TextInputLayout tilLogin;
     @BindView(R.id.tilSenha) TextInputLayout tilSenha;
 
+    private DBHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        db=new DBHandler(this);
     }
 
     @OnClick(R.id.btnLogin)
@@ -29,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         //Toast.makeText(v.getContext(),login + password,Toast.LENGTH_SHORT).show();
 
         if(!login.equals("") && !password.equals("") ){
-            if(login.equals("paty")&& password.equals("123")){
+            if(db.login(new User(login,password))){
                 startActivity(new Intent(v.getContext(), MainActivity.class));
                 finish();
             }else{
