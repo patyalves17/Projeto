@@ -1,5 +1,6 @@
 package com.projeto.patyalves.projeto;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class SplashscreenActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH=300;
+    private final int SPLASH_DISPLAY_LENGTH=2000;
     private ArrayList<User>users=new ArrayList<>();
     private UserAPI mService;
 
@@ -45,12 +46,12 @@ public class SplashscreenActivity extends AppCompatActivity {
             imageView.startAnimation(animation);
         }
 
-        mService = ApiUtils.getUserAPI();
-        users= mService.getUsers();
+//        mService = ApiUtils.getUserAPI();
+//        users= mService.getUsers();
 
 
-//        SyncDatabase syncDatabase=new SyncDatabase();
-//        syncDatabase.execute();
+        SyncDatabase syncDatabase=new SyncDatabase();
+        syncDatabase.execute();
 
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
@@ -61,42 +62,49 @@ public class SplashscreenActivity extends AppCompatActivity {
 //        },SPLASH_DISPLAY_LENGTH);
 
     }
-//    private class SyncDatabase extends AsyncTask<String, Void, String>{
-//        @Override
-//        protected String doInBackground(String...params){
-//            try{
-//               // URL url=new URL("http://www.mocky.io/v2/58b9b1740f0000b614f09d2f");
-//                URL url=new URL("http://www.mocky.io/v2/5977bd381100004b11d89a6d");
-//                HttpURLConnection connection =(HttpURLConnection)url.openConnection();
-//
-//                connection.setRequestMethod("GET");
-//                connection.setRequestProperty("Accept","application/json");
-//                if(connection.getResponseCode()==200){
-//                    BufferedReader stream=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                    String linha="";
-//                    StringBuilder resposta=new StringBuilder();
-//                    while((linha=stream.readLine())!=null){
-//                        resposta.append(linha);
-//                    }
-//                    connection.disconnect();
-//                    return resposta.toString();
-//                }
-//
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
+    private class SyncDatabase extends AsyncTask<String, Void, String>{
+        private ProgressDialog progress;
+        @Override
+        protected void onPreExecute(){
+            progress=ProgressDialog.show(SplashscreenActivity.this, "Aguarde","Buscando dados no servidor");
+        }
 
-//        @Override
-//        protected void onPostExecute(String s){
-//            if(s!=null){
-//                try{
-//                    JSONObject json=new JSONObject(s);
+        @Override
+        protected String doInBackground(String...params){
+            try{
+               // URL url=new URL("http://www.mocky.io/v2/58b9b1740f0000b614f09d2f");
+                URL url=new URL("http://www.mocky.io/v2/5977bd381100004b11d89a6d");
+                HttpURLConnection connection =(HttpURLConnection)url.openConnection();
+
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept","application/json");
+                if(connection.getResponseCode()==200){
+                    BufferedReader stream=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String linha="";
+                    StringBuilder resposta=new StringBuilder();
+                    while((linha=stream.readLine())!=null){
+                        resposta.append(linha);
+                    }
+                    connection.disconnect();
+                    return resposta.toString();
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s){
+            progress.dismiss();
+            if(s!=null){
+                try{
+                    JSONObject json=new JSONObject(s);
 //                    JSONArray jsonArray=json.getJSONArray("ususarios");
-//
-//                    List<User> users=new ArrayList<User>();
-//
+
+                   // List<User> users=new ArrayList<User>();
+
 //                    for(int i=0; i<jsonArray.length();i++){
 //                        JSONObject user=(JSONObject) jsonArray.get(i);
 //                        String userTemp=user.getString("usuario");
@@ -107,19 +115,27 @@ public class SplashscreenActivity extends AppCompatActivity {
 //                        Log.i("User", userTemp);
 //                        Log.i("Password",password);
 //                    }
-//
-////                    String user=json.getString("usuario");
-////                    String password=json.getString("senha");
-////
-////                    Log.i("User", user);
-////                    Log.i("Password",password);
-//
-//                }catch (JSONException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+
+                    String user=json.getString("usuario");
+                    String password=json.getString("senha");
+
+                    Log.i("User", user);
+                    Log.i("Password",password);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+                            SplashscreenActivity.this.finish();
+                        }
+                    },SPLASH_DISPLAY_LENGTH);
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 
 }
