@@ -59,11 +59,13 @@
         android:onClick="doLogin"/>
 
     <TextView
+        android:id="@+id/tvNewUser"
         android:paddingTop="@dimen/fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Account"
-        android:textColor="@color/teal_light"
+        android:textColor="@color/white"
+        android:onClick="newUser"
         android:textAlignment="center"
         />
 

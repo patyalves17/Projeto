@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -45,8 +46,12 @@ public class LoginActivity extends AppCompatActivity {
                 tilSenha.getEditText().setError("senha errada");
             }
         }
+    }
 
-
-
+    @OnClick(R.id.tvNewUser)
+    public void newUser(){
+        Log.i("NewUser","New User");
+        startActivity(new Intent(LoginActivity.this, NewUserActivity.class));
+       // finish();
     }
 }
