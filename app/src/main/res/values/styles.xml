@@ -14,10 +14,7 @@
         <item name="android:windowFullscreen">true</item>
     </string>
 
-    <style name="AppTheme.Button" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="android:textColor">@color/colorWhite</item>
-    </style>
+
 
 
 

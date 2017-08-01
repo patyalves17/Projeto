@@ -9,6 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context="com.projeto.patyalves.projeto.LoginActivity">
 
     <ImageView
@@ -23,23 +24,27 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/blue_grey">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_login" />
+            android:hint="@string/hint_login"
+            android:textColor="@color/white"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilSenha"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/blue_grey">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_password" />
+            android:hint="@string/hint_password"
+            android:textColor="@color/white"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -49,9 +54,21 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
+        android:background="@color/teal"
+        android:textColor="@color/white"
         android:onClick="doLogin"/>
+
+    <TextView
+        android:paddingTop="@dimen/fab_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Account"
+        android:textColor="@color/teal_light"
+        android:textAlignment="center"
+        />
+
 
 
 </LinearLayout>
+
+
