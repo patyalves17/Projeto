@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/white"
     tools:context="com.projeto.patyalves.projeto.LoginActivity">
 
     <ImageView
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_login"
-            android:textColor="@color/white"/>
+            android:textColor="@color/teal"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_password"
-            android:textColor="@color/white"/>
+            android:inputType="textPassword"
+            android:textColor="@color/teal"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -63,8 +64,8 @@
         android:paddingTop="@dimen/fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Account"
-        android:textColor="@color/white"
+        android:text="@string/new_account"
+        android:textColor="@color/teal"
         android:onClick="newUser"
         android:textAlignment="center"
         />
