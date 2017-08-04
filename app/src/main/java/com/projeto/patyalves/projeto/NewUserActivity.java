@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,6 +29,12 @@ public class NewUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_user);
         ButterKnife.bind(this);
         db=new DBHandler(this);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+       // ((ActionBarActivity)getActivity()).getSupportActionBar().
+
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
     //createAccount
@@ -49,4 +56,15 @@ public class NewUserActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

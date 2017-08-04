@@ -10,14 +10,30 @@ import android.widget.Toast;
 
 import com.projeto.patyalves.projeto.Util.DBHandler;
 import com.projeto.patyalves.projeto.model.User;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TWITTER_KEY = "3TXPDtvCPOR4MQM9QrIKJLHdO";
+    private static final String TWITTER_SECRET = "6txlJmRbuSrKtvMZWM5p2DhvzsUJdxjG7Psof7wF50xVgz6m8L";
+
     @BindView(R.id.tilLogin) TextInputLayout tilLogin;
     @BindView(R.id.tilSenha) TextInputLayout tilSenha;
+    @BindView(R.id.login_button) TwitterLoginButton loginButton;
 
     private DBHandler db;
 
@@ -27,7 +43,61 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         db=new DBHandler(this);
+        TwitterConfig config = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
+
+
+      //  loginButton = (TwitterLoginButton) findViewById(R.id.login_button);
+        loginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                // Do something with result, which provides a TwitterSession for making API calls
+                Log.i("Twitter", "Thats OK");
+               // TwitterSession session = result.data;
+                //String name = session.getUserName();
+                Log.i("Twitter", String.valueOf(result));
+                Log.i("Twitter", result.data.getUserName());
+
+               // loginButton.setVisibility(View.GONE);
+
+                Toast.makeText(getApplicationContext(),"Success "+getResources().getString(R.string.app_name),Toast.LENGTH_SHORT).show();
+
+
+                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                TwitterAuthToken authToken = session.getAuthToken();
+                String token = authToken.token;
+                String secret = authToken.secret;
+
+                Log.i("Twitter", token);
+                Log.i("Twitter", secret);
+
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+                Log.i("Twitter", "Something Wrong");
+                Toast.makeText(getApplicationContext(),"Failure "+getResources().getString(R.string.app_name), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Pass the activity result to the login button.
+        loginButton.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+
 
     @OnClick(R.id.btnLogin)
     public void doLogin(View v){
@@ -54,4 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(LoginActivity.this, NewUserActivity.class));
        // finish();
     }
+
+
 }

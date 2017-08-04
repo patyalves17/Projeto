@@ -57,7 +57,21 @@
         android:layout_marginTop="20dp"
         android:background="@color/teal"
         android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:onClick="doLogin"/>
+
+    <!--<com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true" />
 
     <TextView
         android:id="@+id/tvNewUser"
