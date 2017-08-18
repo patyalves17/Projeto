@@ -29,9 +29,9 @@ import java.util.List;
 
 public class SplashscreenActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH=2000;
+    private final int SPLASH_DISPLAY_LENGTH=200;
     private ArrayList<User>users=new ArrayList<>();
-    private UserAPI mService;
+   // private UserAPI mService;
     private DBHandler db;
 
     @Override

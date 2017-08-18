@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tilLogin) TextInputLayout tilLogin;
     @BindView(R.id.tilSenha) TextInputLayout tilSenha;
     @BindView(R.id.login_button) TwitterLoginButton loginButton;
+    TwitterSession session;
 
     private DBHandler db;
 
@@ -51,6 +52,27 @@ public class LoginActivity extends AppCompatActivity {
         Twitter.initialize(config);
 
 
+        session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+
+        if(session!=null){
+            TwitterAuthToken authToken = session.getAuthToken();
+            String token = authToken.token;
+            String secret = authToken.secret;
+
+            Log.i("TwitterToken", String.valueOf(session));
+            Log.i("TwitterToken", session.getUserName());
+            Log.i("TwitterToken", String.valueOf(session.getUserId()));
+            Log.i("TwitterToken", token);
+            Log.i("TwitterToken", secret);
+
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+
+        }else{
+            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+        }
+
+
       //  loginButton = (TwitterLoginButton) findViewById(R.id.login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
@@ -59,21 +81,24 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("Twitter", "Thats OK");
                // TwitterSession session = result.data;
                 //String name = session.getUserName();
-                Log.i("Twitter", String.valueOf(result));
-                Log.i("Twitter", result.data.getUserName());
+//                Log.i("Twitter", String.valueOf(result));
+//                Log.i("Twitter", result.data.getUserName());
 
                // loginButton.setVisibility(View.GONE);
 
-                Toast.makeText(getApplicationContext(),"Success "+getResources().getString(R.string.app_name),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"Success "+getResources().getString(R.string.app_name),Toast.LENGTH_SHORT).show();
 
 
-                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                session = TwitterCore.getInstance().getSessionManager().getActiveSession();
                 TwitterAuthToken authToken = session.getAuthToken();
                 String token = authToken.token;
                 String secret = authToken.secret;
 
                 Log.i("Twitter", token);
                 Log.i("Twitter", secret);
+
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
 
             }
 

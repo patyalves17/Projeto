@@ -73,6 +73,8 @@
         android:layout_gravity="center"
         android:clickable="true" />
 
+
+
     <TextView
         android:id="@+id/tvNewUser"
         android:paddingTop="@dimen/fab_margin"
