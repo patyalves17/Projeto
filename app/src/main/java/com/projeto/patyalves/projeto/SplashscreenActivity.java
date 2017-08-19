@@ -12,11 +12,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.projeto.patyalves.projeto.Util.DBHandler;
-import com.projeto.patyalves.projeto.api.ApiUtils;
-import com.projeto.patyalves.projeto.api.UserAPI;
 import com.projeto.patyalves.projeto.model.User;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,13 +22,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SplashscreenActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH=200;
-    private ArrayList<User>users=new ArrayList<>();
-   // private UserAPI mService;
+    //private ArrayList<User>users=new ArrayList<>();
+   // private LocalAPI mService;
     private DBHandler db;
 
     @Override

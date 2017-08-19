@@ -5,9 +5,9 @@ package com.projeto.patyalves.projeto.api;
  */
 
 public class ApiUtils {
-    public static final String BASE_URL = "http://www.mocky.io";
+    public static final String BASE_URL = "http://192.168.1.122";
 
-    public static UserAPI getUserAPI() {
-        return RetrofitClient.getClient(BASE_URL).create(UserAPI.class);
+    public static LocalAPI getLocalAPI() {
+        return RetrofitClient.getClient(BASE_URL).create(LocalAPI.class);
     }
 }
