@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i("TwitterIdUserActivity", String.valueOf(idUser));
 
 
-                URL url=new URL("http://192.168.1.113:8084/api/profile/"+token+"/"+secret+"/"+idUser);
+                URL url=new URL("http://172.16.71.42:8084/api/profile/"+token+"/"+secret+"/"+idUser);
                 HttpURLConnection connection =(HttpURLConnection )url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept","application/json");
