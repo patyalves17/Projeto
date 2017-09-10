@@ -89,7 +89,7 @@ public class PlacesFragment extends Fragment {
 
       //  return inflater.inflate(R.layout.fragment_places, container, false);
 
-        return view; 
+        return view;
     }
 
     private void carregaLocais(){

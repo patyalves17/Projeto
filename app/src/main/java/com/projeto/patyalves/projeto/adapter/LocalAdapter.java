@@ -53,7 +53,7 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
 
-      holder.tvFoto.setImageBitmap(Bitmap.createScaledBitmap(decodedByte, 500, 500, true));
+      holder.tvFoto.setImageBitmap(Bitmap.createScaledBitmap(decodedByte, 400, 400, true));
     //    holder.tvFoto.setImageBitmap(Bitmap.createBitmap(decodedByte));
         holder.ratingBar.setRating(Float.parseFloat( locais.get(position).getRate().toString()));
 
