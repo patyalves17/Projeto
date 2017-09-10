@@ -26,8 +26,6 @@ import java.util.ArrayList;
 public class SplashscreenActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH=200;
-    //private ArrayList<User>users=new ArrayList<>();
-   // private LocalAPI mService;
     private DBHandler db;
 
     @Override
@@ -45,8 +43,6 @@ public class SplashscreenActivity extends AppCompatActivity {
             imageView.startAnimation(animation);
         }
 
-//        mService = ApiUtils.getUserAPI();
-//        users= mService.getUsers();
 
 
         SyncDatabase syncDatabase=new SyncDatabase();

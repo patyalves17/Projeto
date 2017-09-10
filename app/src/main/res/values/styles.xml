@@ -14,7 +14,10 @@
         <item name="android:windowFullscreen">true</item>
     </string>
 
-
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/teal_light</item>
+        <item name="colorControlActivated">@color/teal</item>
+    </style>
 
 
 

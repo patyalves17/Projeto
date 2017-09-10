@@ -51,8 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         Twitter.initialize(config);
 
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
 
-        session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+      //  session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+       // TwitterCore.getInstance().getSessionManager().clearActiveSession();
+
+       // Log.i("TwitterCore", TwitterCore.getInstance().getSessionManager().getActiveSession(). ),
 
         if(session!=null){
             TwitterAuthToken authToken = session.getAuthToken();
@@ -69,11 +74,9 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         }else{
-            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+           // TwitterCore.getInstance().getSessionManager().clearActiveSession();
         }
 
-
-      //  loginButton = (TwitterLoginButton) findViewById(R.id.login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -84,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 //                Log.i("Twitter", String.valueOf(result));
 //                Log.i("Twitter", result.data.getUserName());
 
-               // loginButton.setVisibility(View.GONE);
+                //loginButton.setVisibility(View.GONE);
 
 //                Toast.makeText(getApplicationContext(),"Success "+getResources().getString(R.string.app_name),Toast.LENGTH_SHORT).show();
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,8 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.projeto.patyalves.projeto.api.ApiUtils;
-import com.projeto.patyalves.projeto.api.LocalAPI;
+
 import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.model.User;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -70,8 +70,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
-        syncProfile.execute();
+        //MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
+        //syncProfile.execute();
+
+
+        PlacesFragment formFragment = new PlacesFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.content_main, formFragment);
+        //transaction.addToBackStack(null);
+        transaction.commit();
 
     }
 
@@ -114,7 +122,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
+            Log.i("Locais", "Carrega Locais");
+
+         //   FormularioFragments formFragment = new FormularioFragments();
+           // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            PlacesFragment formFragment = new PlacesFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.content_main, formFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -123,7 +143,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            Log.i("TwitterLogout", "TwitterLogout");
+           // session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
 
         }
 
