@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity
          //   FormularioFragments formFragment = new FormularioFragments();
            // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            PlacesFragment formFragment = new PlacesFragment();
+            PlacesFragment placesFragment = new PlacesFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.content_main, formFragment);
+            transaction.replace(R.id.content_main, placesFragment);
             transaction.addToBackStack(null);
             transaction.commit();
 

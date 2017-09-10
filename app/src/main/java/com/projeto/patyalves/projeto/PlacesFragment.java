@@ -1,9 +1,9 @@
 package com.projeto.patyalves.projeto;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projeto.patyalves.projeto.adapter.LocalAdapter;
-import com.projeto.patyalves.projeto.adapter.OnItemClickListener;
 import com.projeto.patyalves.projeto.api.APIUtils;
 import com.projeto.patyalves.projeto.api.LocalsAPI;
 import com.projeto.patyalves.projeto.model.Local;
-import com.projeto.patyalves.projeto.model.ResponseLocal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +51,7 @@ public class PlacesFragment extends Fragment {
         ButterKnife.bind(this,view);//equivalente ao findViewById pra todas as coisas da manteiga na faca
 
 
-        localAdapter = new LocalAdapter(new ArrayList<Local>());
+        localAdapter = new LocalAdapter(this.getContext(),new ArrayList<Local>(),onItemClick());
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
 
@@ -79,6 +77,7 @@ public class PlacesFragment extends Fragment {
             }
         });
 
+
         rvLocais.setLayoutManager(layoutManager);
         rvLocais.setAdapter(localAdapter);
         rvLocais.setHasFixedSize(true);
@@ -90,6 +89,28 @@ public class PlacesFragment extends Fragment {
       //  return inflater.inflate(R.layout.fragment_places, container, false);
 
         return view;
+    }
+
+    private LocalAdapter.OnItemClickListener onItemClick(){
+
+        return new LocalAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(View view, Long localId) {
+                Log.i("carregaLocais", "clicou no --> "+localId.toString());
+                Bundle bundle = new Bundle();
+                bundle.putLong("localId", localId);
+                PlaceDetailFragment fragment=new PlaceDetailFragment();
+                fragment.setArguments(bundle);
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_main,fragment);
+                // ft.replace(R.id.content_main,fragment).addToBackStack(null);
+                ft.addToBackStack(null);
+                ft.commit();
+
+            }
+        };
+
     }
 
     private void carregaLocais(){

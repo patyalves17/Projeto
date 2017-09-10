@@ -3,6 +3,9 @@ package com.projeto.patyalves.projeto.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -13,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.projeto.patyalves.projeto.MainActivity;
+import com.projeto.patyalves.projeto.PlaceDetailFragment;
+import com.projeto.patyalves.projeto.PlacesFragment;
 import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.R;
 import com.squareup.picasso.Picasso;
@@ -22,6 +28,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.projeto.patyalves.projeto.PlacesFragment.*;
+
 /**
  * Created by abceducation on 18/08/17.
  */
@@ -29,10 +37,11 @@ import butterknife.ButterKnife;
 public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHolder>{
 
     private List<Local> locais;
-    //private Context context;
+    private Context context;
     private OnItemClickListener listener;
 
-    public LocalAdapter(List<Local> locais){
+    public LocalAdapter(Context context, List<Local> locais,OnItemClickListener listener){
+        this.context=context;
         this.locais=locais;
         this.listener = listener;
     }
@@ -62,7 +71,8 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
             public void onClick(View v) {
                 Log.i("carregaLocais", "clickou");
                 Log.i("carregaLocais", "position "+locais.get(position).getName());
-               // listener.onItemClick(Local.get(position));
+
+                listener.onItemClick(v,locais.get(position).getId());
             }
         });
     }
@@ -95,5 +105,9 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
     public void update(List<Local> locais){
         this.locais=locais;
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view, Long localId);
     }
 }
