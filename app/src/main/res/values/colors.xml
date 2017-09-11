@@ -26,4 +26,8 @@
     <color name="grey">#9D9D9D</color>
     <color name="blue_grey">#5E7C8B</color>
     <color name="white">#ffffff</color>
+    <color name="logoPink">#ff7897</color>
+    <color name="logoTeal">#00cad4</color>
+    <color name="logoOrange">#ffbb47</color>
+
 </resources>

@@ -87,7 +87,8 @@ public class PlaceDetailFragment extends Fragment {
     }
     @OnClick(R.id.fab2)
     public void click2(View view){
-        Log.i("carregaLocais", "clicou no fab 2");
+
+        Log.i("carregaLocais", "clicou no fab 2 MAP");
     }
 
     private void loadDetails(){

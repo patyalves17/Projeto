@@ -19,10 +19,11 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/fab_margin"
         android:visibility="invisible"
-        android:backgroundTint="@color/amber"
+        android:backgroundTint="@color/logoOrange"
         android:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_done" />
+        android:src="@drawable/ic_map" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
         android:layout_width="wrap_content"
@@ -31,10 +32,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/fab_margin"
         android:visibility="invisible"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/logoPink"
         android:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_done"
+        android:src="@drawable/ic_phone"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -43,10 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:elevation="6dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/logoTeal"
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_more_vert" />
+
+
 
 
 </FrameLayout>

@@ -50,14 +50,11 @@ public class LoginActivity extends AppCompatActivity {
                 .debug(true)
                 .build();
         Twitter.initialize(config);
+        Log.i("TwitterToken", String.valueOf(session));
+       // loginButton.setVisibility(View.VISIBLE);
 
         startActivity(new Intent(this, MainActivity.class));
         finish();
-
-      //  session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-       // TwitterCore.getInstance().getSessionManager().clearActiveSession();
-
-       // Log.i("TwitterCore", TwitterCore.getInstance().getSessionManager().getActiveSession(). ),
 
         if(session!=null){
             TwitterAuthToken authToken = session.getAuthToken();
@@ -74,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         }else{
-           // TwitterCore.getInstance().getSessionManager().clearActiveSession();
+            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+            loginButton.setVisibility(View.VISIBLE);
         }
 
         loginButton.setCallback(new Callback<TwitterSession>() {
@@ -84,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("Twitter", "Thats OK");
                // TwitterSession session = result.data;
                 //String name = session.getUserName();
-//                Log.i("Twitter", String.valueOf(result));
-//                Log.i("Twitter", result.data.getUserName());
+                Log.i("Twitter", String.valueOf(result));
+                Log.i("Twitter", result.data.getUserName());
 
                 //loginButton.setVisibility(View.GONE);
 
@@ -120,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the activity result to the login button.
-        loginButton.onActivityResult(requestCode, resultCode, data);
+       // loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 
