@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 public class PlaceDetailFragment extends Fragment {
     private LocalAdapter localAdapter;
     private LocalsAPI localAPI;
+    private Local local;
     Long id;
 
     @BindView(R.id.fab) FloatingActionButton fab;
@@ -87,8 +89,24 @@ public class PlaceDetailFragment extends Fragment {
     }
     @OnClick(R.id.fab2)
     public void click2(View view){
-
         Log.i("carregaLocais", "clicou no fab 2 MAP");
+
+        Log.i("mark", "latitude "+ local.getLatitude());
+        Log.i("mark", "longitude "+ local.getLongitude());
+
+
+        Bundle bundle = new Bundle();
+        bundle.putDouble("latitude", local.getLatitude());
+        bundle.putDouble("longitude", local.getLongitude());
+        bundle.putString("nome", local.getName());
+        MapsActivity maps=new MapsActivity();
+        maps.setArguments(bundle);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.content_main,maps);
+        // ft.replace(R.id.content_main,fragment).addToBackStack(null);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     private void loadDetails(){
@@ -102,6 +120,7 @@ public class PlaceDetailFragment extends Fragment {
                     Log.i("carregaLocais", response.body().toString());
                     Log.i("carregaLocais",response.body().getName());
                     Log.i("carregaLocais",response.body().getBairro());
+                    local=response.body();
                 }
             }
 
