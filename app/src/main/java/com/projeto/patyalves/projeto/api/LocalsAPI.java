@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -26,4 +27,9 @@ public interface LocalsAPI {
 
     @GET("locais/lista")
     Call<List<Local>> getLocais();
+
+    @GET("locais/{id}")
+    Call<Local> getLocal(@Path("id") Long id);
+
+
 }

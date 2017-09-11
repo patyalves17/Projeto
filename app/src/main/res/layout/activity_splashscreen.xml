@@ -15,7 +15,7 @@
         android:id="@+id/ivSplash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/map_projeto"
+        android:src="@drawable/logo"
 
         />
 
