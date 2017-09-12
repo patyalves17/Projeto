@@ -22,7 +22,8 @@
         android:backgroundTint="@color/logoOrange"
         android:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_map" />
+        android:src="@drawable/ic_map"
+        app:borderWidth="0dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
@@ -36,6 +37,7 @@
         android:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/ic_phone"
+        app:borderWidth="0dp"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -47,6 +49,7 @@
         android:backgroundTint="@color/logoTeal"
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
+        app:borderWidth="0dp"
         android:src="@drawable/ic_more_vert" />
 
 

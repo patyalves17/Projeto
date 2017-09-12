@@ -1,10 +1,15 @@
 package com.projeto.patyalves.projeto;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -13,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.projeto.patyalves.projeto.adapter.LocalAdapter;
 import com.projeto.patyalves.projeto.api.APIUtils;
@@ -43,6 +49,8 @@ public class PlaceDetailFragment extends Fragment {
     @BindView(R.id.fab2) FloatingActionButton fab2;
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+
+    private BroadcastReceiver mReceiver;
 
 
     public PlaceDetailFragment() {
@@ -85,15 +93,31 @@ public class PlaceDetailFragment extends Fragment {
     }
     @OnClick(R.id.fab1)
     public void click1(View view){
-        Log.i("carregaLocais", "clicou no fab 1");
+        Log.i("carregaLocais", "Call to " +local.getTelefone());
+
+
+        String uri ="tel:"+local.getTelefone().replace(" ", "").replace("-", "");
+        Log.i("carregaLocais", "Call to " +uri);
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse(uri));
+//        if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+        startActivity(intent);
+ //       Toast.makeText(view.getContext(),"Hi",Toast.LENGTH_SHORT).show();
+
     }
     @OnClick(R.id.fab2)
     public void click2(View view){
         Log.i("carregaLocais", "clicou no fab 2 MAP");
-
-        Log.i("mark", "latitude "+ local.getLatitude());
-        Log.i("mark", "longitude "+ local.getLongitude());
-
 
         Bundle bundle = new Bundle();
         bundle.putDouble("latitude", local.getLatitude());
