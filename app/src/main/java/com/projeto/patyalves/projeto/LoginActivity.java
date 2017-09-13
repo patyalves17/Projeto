@@ -67,12 +67,14 @@ public class LoginActivity extends AppCompatActivity {
             Log.i("TwitterToken", token);
             Log.i("TwitterToken", secret);
 
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+//            startActivity(new Intent(this, MainActivity.class));
+//            finish();
 
         }else{
+            Log.i("TwitterToken", "vamos la--> "+ String.valueOf(session));
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
             loginButton.setVisibility(View.VISIBLE);
+
         }
 
         loginButton.setCallback(new Callback<TwitterSession>() {
@@ -85,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("Twitter", String.valueOf(result));
                 Log.i("Twitter", result.data.getUserName());
 
-                //loginButton.setVisibility(View.GONE);
+                loginButton.setVisibility(View.GONE);
 
 //                Toast.makeText(getApplicationContext(),"Success "+getResources().getString(R.string.app_name),Toast.LENGTH_SHORT).show();
 
@@ -107,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             public void failure(TwitterException exception) {
                 // Do something on failure
                 Log.i("Twitter", "Something Wrong");
+                Log.i("Twitter", exception.getMessage());
                 Toast.makeText(getApplicationContext(),"Failure "+getResources().getString(R.string.app_name), Toast.LENGTH_SHORT).show();
 
             }
@@ -118,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the activity result to the login button.
-       // loginButton.onActivityResult(requestCode, resultCode, data);
+        loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 

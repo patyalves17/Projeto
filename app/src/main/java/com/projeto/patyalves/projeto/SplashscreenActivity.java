@@ -12,6 +12,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.projeto.patyalves.projeto.Util.DBHandler;
+import com.projeto.patyalves.projeto.Util.DBHandlerP;
+import com.projeto.patyalves.projeto.api.APIUtils;
+import com.projeto.patyalves.projeto.api.UsersAPI;
+import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.model.User;
 
 import org.json.JSONException;
@@ -23,16 +27,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SplashscreenActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH=200;
-    private DBHandler db;
+//    private DBHandler db;
+    private DBHandlerP db;
+    private UsersAPI userAPI;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-        db=new DBHandler(this);
+        db=new DBHandlerP(this);
 
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.splash_animation);
         animation.reset();
@@ -42,8 +53,6 @@ public class SplashscreenActivity extends AppCompatActivity {
             imageView.clearAnimation();
             imageView.startAnimation(animation);
         }
-
-
 
         SyncDatabase syncDatabase=new SyncDatabase();
         syncDatabase.execute();
@@ -66,74 +75,50 @@ public class SplashscreenActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String...params){
+
             try{
-               // URL url=new URL("http://www.mocky.io/v2/58b9b1740f0000b614f09d2f");
-                URL url=new URL("http://www.mocky.io/v2/5977bd381100004b11d89a6d");
-                HttpURLConnection connection =(HttpURLConnection)url.openConnection();
+                userAPI = APIUtils.getUserAPI();
+                Log.i("carregaUser", "carregando...");
+                userAPI.getUser().enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            user=new User(response.body().getUsuario(),response.body().getSenha());
 
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Accept","application/json");
-                if(connection.getResponseCode()==200){
-                    BufferedReader stream=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String linha="";
-                    StringBuilder resposta=new StringBuilder();
-                    while((linha=stream.readLine())!=null){
-                        resposta.append(linha);
+                            User UserSearch=db.getUser(user);
+                            if(UserSearch!=null){
+                                Log.i("carregaUser","existe");
+                                startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+                                SplashscreenActivity.this.finish();
+                            }else{
+                                Log.i("carregaUser","nao existe");
+                                long idSalve=db.createUser(user);
+
+                                if(idSalve!=-1){
+                                    startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+                                    SplashscreenActivity.this.finish();
+                                    Log.i("carregaUser",idSalve+" Salvo com sucesso.");
+                                }
+                            }
+                            progress.dismiss();
+                        }
                     }
-                    connection.disconnect();
-                    return resposta.toString();
-                }
 
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.i("carregaUser", "erro ao carregar dados: "+t.getLocalizedMessage());
+                    }
+                });
             }catch (Exception e){
                 e.printStackTrace();
             }
             return null;
         }
 
-        @Override
-        protected void onPostExecute(String s){
-            progress.dismiss();
-            if(s!=null){
-                try{
-                    JSONObject json=new JSONObject(s);
-//                    JSONArray jsonArray=json.getJSONArray("ususarios");
-
-                   // List<User> users=new ArrayList<User>();
-
-//                    for(int i=0; i<jsonArray.length();i++){
-//                        JSONObject user=(JSONObject) jsonArray.get(i);
-//                        String userTemp=user.getString("usuario");
-//                        String password=user.getString("senha");
-//
-//                        users.add(new User(userTemp,password));
-//
-//                        Log.i("User", userTemp);
-//                        Log.i("Password",password);
-//                    }
-
-                    String user=json.getString("usuario");
-                    String password=json.getString("senha");
-                    db.addOnce(new User(user,password));
-
-
-                    Log.i("User", user);
-                    Log.i("Password",password);
-                    Log.i("Count", String.valueOf(db.getUsersCount()));
-                    Log.i("User",db.getUser(1).getUser());
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
-                            SplashscreenActivity.this.finish();
-                        }
-                    },SPLASH_DISPLAY_LENGTH);
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        }
+//        @Override
+//        protected void onPostExecute(String s){
+////
+//        }
     }
 
 

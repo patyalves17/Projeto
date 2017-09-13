@@ -120,7 +120,7 @@ public class PlacesFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
                 if (response.isSuccessful()) {
-                    Log.i("MainActivityLine", response.body().toString());
+                    Log.i("carregaLocais", response.body().toString());
 
                     localAdapter.update(response.body());
                 }
@@ -128,7 +128,7 @@ public class PlacesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Local>> call, Throwable t) {
-                Log.i("MainActivity", "erro ao carregar dados: "+t.getLocalizedMessage());
+                Log.i("carregaLocais", "erro ao carregar dados: "+t.getLocalizedMessage());
             }
         });
 

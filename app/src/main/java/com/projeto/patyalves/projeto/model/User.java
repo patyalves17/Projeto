@@ -8,33 +8,34 @@ public class User {
 
     private int id;
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+    private String usuario;
+    private String senha;
+    private String tokenTwitter;
+    private String secretTwitter;
+    private Long UserIdTwitter;
+    private Long idpessoa;
 
-    private String user;
-    private String password;
-
-    public User(String user, String password) {
-        this.user=user;
-        this.password=password;
+    public User(String usuario, String senha) {
+        this.setUsuario(usuario);
+        this.setSenha(senha);
     }
-    public User(int id,String user, String password) {
+    public User(int id, String usuario, String senha) {
         this.id=id;
-        this.user=user;
-        this.password=password;
+        this.setUsuario(usuario);
+        this.setSenha(senha);
+    }
+
+    public User(int id, String usuario, String senha, String tokenTwitter, String secretTwitter, Long userIdTwitter, Long idpessoa) {
+        this.id=id;
+        this.setUsuario(usuario);
+        this.setSenha(senha);
+        this.setTokenTwitter(tokenTwitter);
+        this.setSecretTwitter(secretTwitter);
+        this.setUserIdTwitter(userIdTwitter);
+        this.setIdpessoa(idpessoa);
     }
 
     public User() { }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
     public int getId() {
         return id;
@@ -44,7 +45,51 @@ public class User {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getTokenTwitter() {
+        return tokenTwitter;
+    }
+
+    public void setTokenTwitter(String tokenTwitter) {
+        this.tokenTwitter = tokenTwitter;
+    }
+
+    public String getSecretTwitter() {
+        return secretTwitter;
+    }
+
+    public void setSecretTwitter(String secretTwitter) {
+        this.secretTwitter = secretTwitter;
+    }
+
+    public Long getUserIdTwitter() {
+        return UserIdTwitter;
+    }
+
+    public void setUserIdTwitter(Long userIdTwitter) {
+        UserIdTwitter = userIdTwitter;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Long getIdpessoa() {
+        return idpessoa;
+    }
+
+    public void setIdpessoa(Long idpessoa) {
+        this.idpessoa = idpessoa;
     }
 }

@@ -17,6 +17,25 @@ public class Local {
     private Double rate;
     private String website;
     private String bairro;
+    private String imagem;
+    private Double myRate;
+
+    public Local(){}
+    public Local(Long id, String name, String bairro, String imagem, Double rate){
+        this.setId(id);
+        this.setName(name);
+        this.setBairro(bairro);
+        this.setImagem(imagem);
+        this.setRate(rate);
+    }
+    public Local(Long id, String name, String bairro, String imagem, Double rate, Double myRate){
+        this.setId(id);
+        this.setName(name);
+        this.setBairro(bairro);
+        this.setImagem(imagem);
+        this.setRate(rate);
+        this.setRate(myRate);
+    }
 
     public String getImagem() {
         return imagem;
@@ -122,7 +141,12 @@ public class Local {
         this.bairro = bairro;
     }
 
-    private String imagem;
 
+    public Double getMyRate() {
+        return myRate;
+    }
 
+    public void setMyRate(Double myRate) {
+        this.myRate = myRate;
+    }
 }

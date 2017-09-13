@@ -16,8 +16,8 @@ import rx.Observable;
  */
 
 public interface LocalsAPI {
-    @GET("v2/5977bd381100004b11d89a6d")
-    Call<User> getUser();
+//    @GET("v2/5977bd381100004b11d89a6d")
+//    Call<User> getUser();
 
    // @GET("locais/lista")
     //Call<ResponseLocal>getLocais();
@@ -30,6 +30,5 @@ public interface LocalsAPI {
 
     @GET("locais/{id}")
     Call<Local> getLocal(@Path("id") Long id);
-
 
 }

@@ -53,8 +53,8 @@ public class DBHandler  extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USER, user.getUser()); // User Name
-        values.put(KEY_PASSWORD, user.getPassword()); // User Phone Number
+        values.put(KEY_USER, user.getUsuario()); // User Name
+        values.put(KEY_PASSWORD, user.getSenha()); // User Phone Number
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
@@ -83,7 +83,7 @@ public class DBHandler  extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
                         KEY_USER, KEY_PASSWORD}, KEY_USER + "=? AND "+KEY_PASSWORD+"=?" ,
-                new String[]{user.getUser(),user.getPassword()}, null, null, null, null);
+                new String[]{user.getUsuario(),user.getSenha()}, null, null, null, null);
         if (cursor.getCount()>0) {
             return true;
         }else {
@@ -105,8 +105,8 @@ public class DBHandler  extends SQLiteOpenHelper {
             do {
                 User user = new User();
                 user.setId(Integer.parseInt(cursor.getString(0)));
-                user.setUser(cursor.getString(1));
-                user.setPassword(cursor.getString(2));
+                user.setUsuario(cursor.getString(1));
+                user.setSenha(cursor.getString(2));
                 // Adding contact to list
                 userList.add(user);
             } while (cursor.moveToNext());
@@ -134,8 +134,8 @@ public class DBHandler  extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USER, user.getUser());
-        values.put(KEY_PASSWORD, user.getPassword());
+        values.put(KEY_USER, user.getUsuario());
+        values.put(KEY_PASSWORD, user.getSenha());
 
         // updating row
         return db.update(TABLE_USERS, values, KEY_ID + " = ?",
@@ -156,7 +156,7 @@ public class DBHandler  extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
                         KEY_USER, KEY_PASSWORD}, KEY_USER + "=?",
-                new String[]{String.valueOf(user.getUser())}, null, null, null, null);
+                new String[]{String.valueOf(user.getUsuario())}, null, null, null, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             // gambs da porra

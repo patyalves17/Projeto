@@ -15,6 +15,6 @@ public class APIUtils {
     }
 
     public static LocalsAPI getLocalsAPI() {
-        return RetrofitClient.getClient(BASE_URL_servidor).create(LocalsAPI.class);
+        return RetrofitClientLocal.getClient(BASE_URL_servidor).create(LocalsAPI.class);
     }
 }
