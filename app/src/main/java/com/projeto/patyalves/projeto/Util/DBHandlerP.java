@@ -20,7 +20,7 @@ public class DBHandlerP extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "DatabaseHelper";
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Database Name
     private static final String DATABASE_NAME = "matchplaces";
@@ -55,7 +55,7 @@ public class DBHandlerP extends SQLiteOpenHelper {
             + KEY_SENHA + " TEXT,"
             + KEY_TOKEN + " TEXT,"
             + KEY_SECRET + " TEXT,"
-            + KEY_IDTWITTER + " REAL,"
+            + KEY_IDTWITTER + " TEXT,"
             + KEY_IDPESSOA + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_LOCAL = "CREATE TABLE " + TABLE_LOCAL + " ("
@@ -129,7 +129,37 @@ public class DBHandlerP extends SQLiteOpenHelper {
             user.setSenha(c.getString(c.getColumnIndex(KEY_SENHA)));
             user.setTokenTwitter(c.getString(c.getColumnIndex(KEY_TOKEN)));
             user.setSecretTwitter(c.getString(c.getColumnIndex(KEY_SECRET)));
-            user.setUserIdTwitter(c.getLong(c.getColumnIndex(KEY_IDTWITTER)));
+            user.setUserIdTwitter(c.getString(c.getColumnIndex(KEY_IDTWITTER)));
+            user.setIdpessoa(c.getLong(c.getColumnIndex(KEY_IDPESSOA)));
+            return user;
+        }else{
+            Log.i("carregaUser","tem Nada aqui para ver.");
+            return null;
+        }
+
+    }
+
+    /*
+* get single user
+*/
+    public User getUserTwitter(User userSearch) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_USER + " WHERE "
+                + KEY_USUARIO + " = '" + userSearch.getUsuario()+"'";
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null && c.getCount()>0) {
+            c.moveToFirst();
+            User user = new User();
+            user.setUsuario((c.getString(c.getColumnIndex(KEY_USUARIO))));
+            user.setSenha(c.getString(c.getColumnIndex(KEY_SENHA)));
+            user.setTokenTwitter(c.getString(c.getColumnIndex(KEY_TOKEN)));
+            user.setSecretTwitter(c.getString(c.getColumnIndex(KEY_SECRET)));
+            user.setUserIdTwitter(c.getString(c.getColumnIndex(KEY_IDTWITTER)));
             user.setIdpessoa(c.getLong(c.getColumnIndex(KEY_IDPESSOA)));
             return user;
         }else{
@@ -160,7 +190,7 @@ public class DBHandlerP extends SQLiteOpenHelper {
                 user.setSenha(c.getString(c.getColumnIndex(KEY_SENHA)));
                 user.setTokenTwitter(c.getString(c.getColumnIndex(KEY_TOKEN)));
                 user.setSecretTwitter(c.getString(c.getColumnIndex(KEY_SECRET)));
-                user.setUserIdTwitter(c.getLong(c.getColumnIndex(KEY_IDTWITTER)));
+                user.setUserIdTwitter(c.getString(c.getColumnIndex(KEY_IDTWITTER)));
                 user.setIdpessoa(c.getLong(c.getColumnIndex(KEY_IDPESSOA)));
 
                 // adding to todo list

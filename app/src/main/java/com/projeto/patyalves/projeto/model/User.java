@@ -12,7 +12,7 @@ public class User {
     private String senha;
     private String tokenTwitter;
     private String secretTwitter;
-    private Long UserIdTwitter;
+    private String UserIdTwitter;
     private Long idpessoa;
 
     public User(String usuario, String senha) {
@@ -25,7 +25,7 @@ public class User {
         this.setSenha(senha);
     }
 
-    public User(int id, String usuario, String senha, String tokenTwitter, String secretTwitter, Long userIdTwitter, Long idpessoa) {
+    public User(int id, String usuario, String senha, String tokenTwitter, String secretTwitter, String userIdTwitter, Long idpessoa) {
         this.id=id;
         this.setUsuario(usuario);
         this.setSenha(senha);
@@ -61,11 +61,11 @@ public class User {
         this.secretTwitter = secretTwitter;
     }
 
-    public Long getUserIdTwitter() {
+    public String getUserIdTwitter() {
         return UserIdTwitter;
     }
 
-    public void setUserIdTwitter(Long userIdTwitter) {
+    public void setUserIdTwitter(String userIdTwitter) {
         UserIdTwitter = userIdTwitter;
     }
 

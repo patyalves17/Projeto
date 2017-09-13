@@ -2,9 +2,11 @@ package com.projeto.patyalves.projeto;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +20,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 
+import com.projeto.patyalves.projeto.Util.DBHandler;
+import com.projeto.patyalves.projeto.Util.DBHandlerP;
+import com.projeto.patyalves.projeto.api.APIUtils;
+import com.projeto.patyalves.projeto.api.LocalsAPI;
 import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.model.User;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -39,10 +47,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TwitterSession session;
+    private DBHandlerP db;
+    User userT;
+    private LocalsAPI localAPI;
 
 
     @Override
@@ -52,14 +67,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        db=new DBHandlerP(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,16 +78,62 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
-        //syncProfile.execute();
+//        MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
+//        syncProfile.execute();
+
+        session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+        if(session!=null){
+            Log.i("TwitterID", String.valueOf(session.getUserId()));
 
 
-        PlacesFragment formFragment = new PlacesFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            User userT = new User();
+            userT = new User();
+            userT.setUsuario(session.getUserName());
+            userT.setSecretTwitter(session.getAuthToken().secret);
+            userT.setTokenTwitter(session.getAuthToken().token);
+            userT.setUserIdTwitter(String.valueOf(session.getUserId()));
 
-        transaction.replace(R.id.content_main, formFragment);
-        //transaction.addToBackStack(null);
-        transaction.commit();
+
+            //descomentar, esta ok
+            User UserSearch=db.getUser(userT);
+            if(UserSearch!=null){
+                Log.i("Twitter","existe");
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                Long idPessoa = settings.getLong("idPessoa", 0);
+
+                Log.i("Twitter","idPessoa"+ idPessoa);
+               // buscaLugares();
+            }else{
+                Log.i("Twitter","Nop existe");
+
+                MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
+                syncProfile.execute();
+
+//                long idSalve=db.createUser(userT);
+//                if(idSalve!=-1){
+//                    Log.i("Twitter",idSalve+" Salvo com sucesso.");
+//
+////                    MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
+////                    syncProfile.execute(idSalve);
+//                }
+            }
+//
+//            MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
+//            syncProfile.execute();
+
+
+
+        }
+
+
+
+////fragment dos locais
+//        PlacesFragment formFragment = new PlacesFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//
+//        transaction.replace(R.id.content_main, formFragment);
+//        //transaction.addToBackStack(null);
+//        transaction.commit();
 
     }
 
@@ -125,15 +179,14 @@ public class MainActivity extends AppCompatActivity
 
             Log.i("Locais", "Carrega Locais");
 
-         //   FormularioFragments formFragment = new FormularioFragments();
-           // FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            buscaLugares();
 
-            PlacesFragment placesFragment = new PlacesFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.content_main, placesFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+//            PlacesFragment placesFragment = new PlacesFragment();
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//
+//            transaction.replace(R.id.content_main, placesFragment);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
 
         } else if (id == R.id.nav_gallery) {
 
@@ -145,11 +198,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             Log.i("TwitterLogout", "TwitterLogout");
-           // session = TwitterCore.getInstance().getSessionManager().getActiveSession();
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
+
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,29 +211,18 @@ public class MainActivity extends AppCompatActivity
 
     public void buscaLugares(){
 
-        session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-        TwitterAuthToken authToken = session.getAuthToken();
-        String token = authToken.token;
-        String secret = authToken.secret;
-        Log.i("TwitterTokenActivity", token);
-        Log.i("TwitterTokenActivity", secret);
-        Log.i("TwitterIdUserActivity", String.valueOf(session.getUserId()));
+        //fragment dos locais
+        PlacesFragment formFragment = new PlacesFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-
-
-
-
+        transaction.replace(R.id.content_main, formFragment);
+        //transaction.addToBackStack(null);
+        transaction.commit();
 
     }
 
     private class SyncProfile extends AsyncTask<String, Void, String> {
         private ProgressDialog progress;
-
-//        TwitterAuthToken authToken = session.getAuthToken();
-//        String token = authToken.token;
-//        String secret = authToken.secret;
-//        long userId=session.getUserId();
-
 
 
         @Override
@@ -191,54 +232,142 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected String doInBackground(String...params){
+            Log.i("Twitter","doInBackground getTokenTwitter "+ userT.getTokenTwitter());
+
+
+
             try{
+                    //{token}/{secret}/{idTwitter}")
 
-                session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-                TwitterAuthToken authToken = session.getAuthToken();
-                String token = authToken.token;
-                String secret = authToken.secret;
-                long idUser=session.getUserId();
-                Log.i("TwitterTokenActivity", token);
-                Log.i("TwitterTokenActivity", secret);
-                Log.i("TwitterIdUserActivity", String.valueOf(idUser));
+//                userT.setUsuario(session.getUserName());
+//                userT.setSecretTwitter(session.getAuthToken().secret);
+//                userT.setTokenTwitter(session.getAuthToken().token);
+//                userT.setUserIdTwitter(String.valueOf(session.getUserId()));
 
 
-                URL url=new URL("http://172.16.71.42:8084/api/profile/"+token+"/"+secret+"/"+idUser);
-                HttpURLConnection connection =(HttpURLConnection )url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Accept","application/json");
 
 
-                if(connection.getResponseCode()==200){
-                    Log.i("MainActivity","It' ok");
-                }
+                localAPI = APIUtils.getLocalsAPI();
+                Log.i("carregaUser", "carregando...");
+                localAPI.getProfile(userT.getTokenTwitter(),userT.getSecretTwitter(),userT.getUserIdTwitter()).enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        Log.i("twitter", "onResponse...");
+                        if (response.isSuccessful()) {
 
+
+                            if(response.body()!=null){
+                                Log.i("twitter", String.valueOf(response.body().getIdpessoa()));
+                                userT.setIdpessoa(response.body().getIdpessoa());
+//                                User userProfile=new User();
+//                                userProfile.setIdpessoa(response.body().getIdpessoa());
+//
+//                                Log.i("twitter","userProfile--> "+ userProfile.getIdpessoa());
+                            }
+
+
+                            long idSalve=db.createUser(userT);
+                            if(idSalve!=-1){
+                                Log.i("Twitter",idSalve+" Salvo com sucesso.");
+
+                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putLong("idPessoa", userT.getIdpessoa()).commit();
+                                editor.commit();
+
+                                //buscaLugares();
+
+//
+                            }
+
+
+                            //Long=response.body().;
+                          // User userProfile=new User();
+
+
+//                            User UserSearch=db.getUser(user);
+//                            if(UserSearch!=null){
+//                                Log.i("carregaUser","existe");
+//                                startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+//                                SplashscreenActivity.this.finish();
+//                            }else{
+//                                Log.i("carregaUser","nao existe");
+//                                long idSalve=db.createUser(user);
+//
+//                                if(idSalve!=-1){
+//                                    startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+//                                    SplashscreenActivity.this.finish();
+//                                    Log.i("carregaUser",idSalve+" Salvo com sucesso.");
+//                                }
+//                            }
+                            progress.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.i("twitter", "erro ao carregar dados: "+t.getLocalizedMessage());
+                    }
+                });
+//
+//                session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+//                TwitterAuthToken authToken = session.getAuthToken();
+//                String token = authToken.token;
+//                String secret = authToken.secret;
+//                long idUser=session.getUserId();
+//                Log.i("TwitterTokenActivity", token);
+//                Log.i("TwitterTokenActivity", secret);
+//                Log.i("TwitterIdUserActivity", String.valueOf(idUser));
+//
+//
+//                URL url=new URL("http://172.16.71.42:8084/api/profile/"+token+"/"+secret+"/"+idUser);
+//                HttpURLConnection connection =(HttpURLConnection )url.openConnection();
+//                connection.setRequestMethod("GET");
+//                connection.setRequestProperty("Accept","application/json");
+//
+//
+//                if(connection.getResponseCode()==200){
+//                    Log.i("MainActivity","It' ok");
+//                }
+//
             }catch (Exception e){
                 e.printStackTrace();
             }
+
+
+
+
+
+            ////fragment dos locais
+//        PlacesFragment formFragment = new PlacesFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//
+//        transaction.replace(R.id.content_main, formFragment);
+//        //transaction.addToBackStack(null);
+//        transaction.commit();
             return null;
         }
 
-        @Override
-        protected void onPostExecute(String s){
-            Log.i("MainActivity", "onPostExecute");
-            progress.dismiss();
-            if(s!=null){
-                try{
-                    JSONObject json=new JSONObject(s);
-//                    String user=json.getString("usuario");
-//                    String password=json.getString("senha");
+//        @Override
+//        protected void onPostExecute(String s){
+//            Log.i("MainActivity", "onPostExecute");
+//            progress.dismiss();
+//            if(s!=null){
+//                try{
+//                    JSONObject json=new JSONObject(s);
+////                    String user=json.getString("usuario");
+////                    String password=json.getString("senha");
+////
+////
+////                    Log.i("UserActivity", user);
+////                    Log.i("PasswordActivity",password);
 //
 //
-//                    Log.i("UserActivity", user);
-//                    Log.i("PasswordActivity",password);
-
-
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        }
+//
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 }

@@ -16,19 +16,13 @@ import rx.Observable;
  */
 
 public interface LocalsAPI {
-//    @GET("v2/5977bd381100004b11d89a6d")
-//    Call<User> getUser();
-
-   // @GET("locais/lista")
-    //Call<ResponseLocal>getLocais();
-
-//    @GET("locais/lista")
-//    Observable<List<Local>> getLocais();
-
     @GET("locais/lista")
     Call<List<Local>> getLocais();
 
     @GET("locais/{id}")
     Call<Local> getLocal(@Path("id") Long id);
+
+    @GET("profile/{token}/{secret}/{idTwitter}")
+    Call<User> getProfile(@Path("token") String token, @Path("secret") String secret, @Path("idTwitter") String idTwitter);
 
 }
