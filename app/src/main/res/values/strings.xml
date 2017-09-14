@@ -6,13 +6,17 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="hint_login">User</string>
+    <string name="hint_login">Username</string>
     <string name="hint_password">Password</string>
-    <string name="login">Login</string>
+    <string name="wrong_login">Invalid username</string>
+    <string name="wrong_password">Invalid password</string>
+
+    <string name="login">Sign in</string>
     <string name="new_account">New Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="places">Places</string>
     <string name="title_activity_maps">Map</string>
+    <string name="keep_sign">Manter conectado</string>
 </resources>

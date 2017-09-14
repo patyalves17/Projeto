@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity
             userT.setUserIdTwitter(String.valueOf(session.getUserId()));
 
 
-            //descomentar, esta ok
             User UserSearch=db.getUser(userT);
             if(UserSearch!=null){
                 Log.i("Twitter","existe");
@@ -102,27 +101,15 @@ public class MainActivity extends AppCompatActivity
                 Long idPessoa = settings.getLong("idPessoa", 0);
 
                 Log.i("Twitter","idPessoa"+ idPessoa);
-               // buscaLugares();
+                buscaLugares();
             }else{
                 Log.i("Twitter","Nop existe");
 
                 MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
                 syncProfile.execute();
-
-//                long idSalve=db.createUser(userT);
-//                if(idSalve!=-1){
-//                    Log.i("Twitter",idSalve+" Salvo com sucesso.");
-//
-////                    MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
-////                    syncProfile.execute(idSalve);
-//                }
             }
-//
-//            MainActivity.SyncProfile syncProfile=new MainActivity.SyncProfile();
-//            syncProfile.execute();
-
-
-
+        }else{ // It isn't from twitter =(
+            buscaLugares();
         }
 
 
@@ -200,6 +187,10 @@ public class MainActivity extends AppCompatActivity
             Log.i("TwitterLogout", "TwitterLogout");
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
 
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+            SharedPreferences.Editor editor = settings.edit();
+            editor.clear().commit();
+
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -259,6 +250,12 @@ public class MainActivity extends AppCompatActivity
                             if(response.body()!=null){
                                 Log.i("twitter", String.valueOf(response.body().getIdpessoa()));
                                 userT.setIdpessoa(response.body().getIdpessoa());
+
+                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putLong("idPessoa", userT.getIdpessoa()).commit();
+                                editor.commit();
+
 //                                User userProfile=new User();
 //                                userProfile.setIdpessoa(response.body().getIdpessoa());
 //
@@ -270,15 +267,13 @@ public class MainActivity extends AppCompatActivity
                             if(idSalve!=-1){
                                 Log.i("Twitter",idSalve+" Salvo com sucesso.");
 
-                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
-                                SharedPreferences.Editor editor = settings.edit();
-                                editor.putLong("idPessoa", userT.getIdpessoa()).commit();
-                                editor.commit();
 
-                                //buscaLugares();
+
 
 //
                             }
+                            progress.dismiss();
+                            buscaLugares();
 
 
                             //Long=response.body().;
@@ -300,7 +295,7 @@ public class MainActivity extends AppCompatActivity
 //                                    Log.i("carregaUser",idSalve+" Salvo com sucesso.");
 //                                }
 //                            }
-                            progress.dismiss();
+
                         }
                     }
 

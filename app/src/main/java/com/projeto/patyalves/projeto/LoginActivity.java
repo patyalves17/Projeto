@@ -1,14 +1,18 @@
 package com.projeto.patyalves.projeto;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.projeto.patyalves.projeto.Util.DBHandler;
+import com.projeto.patyalves.projeto.Util.DBHandlerP;
 import com.projeto.patyalves.projeto.model.User;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -34,22 +38,18 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tilLogin) TextInputLayout tilLogin;
     @BindView(R.id.tilSenha) TextInputLayout tilSenha;
     @BindView(R.id.login_button) TwitterLoginButton loginButton;
+    @BindView(R.id.cbKeep) CheckBox cbKeep;
+
     TwitterSession session;
 
-    private DBHandler db;
+    private DBHandlerP db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        db=new DBHandler(this);
-//        TwitterConfig config = new TwitterConfig.Builder(this)
-//                .logger(new DefaultLogger(Log.DEBUG))
-//                .twitterAuthConfig(new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET))
-//                .debug(true)
-//                .build();
-//        Twitter.initialize(config);
+        db=new DBHandlerP(this);
 
 
         session = TwitterCore.getInstance().getSessionManager().getActiveSession();
@@ -62,9 +62,21 @@ public class LoginActivity extends AppCompatActivity {
 
             startActivity(new Intent(this, MainActivity.class));
             finish();
+        }else{  // It isn't from twitter =(
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+            String username = settings.getString("username", null);
+            String password = settings.getString("password", null);
 
-        }else{
-            TwitterCore.getInstance().getSessionManager().clearActiveSession();
+            Log.i("login","username: "+ username);
+            Log.i("login","password: "+  password);
+            if(username!=null && password!=null ){
+                tilLogin.getEditText().setText(username);
+                tilSenha.getEditText().setText(password);
+                cbKeep.setChecked(true);
+                doLogin();
+            }
+
+
         }
 
         loginButton.setCallback(new Callback<TwitterSession>() {
@@ -79,9 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                 String token = authToken.token;
                 String secret = authToken.secret;
 
-//                Log.i("Twitter", token);
-//                Log.i("Twitter", secret);
-//
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
 
@@ -108,19 +117,28 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @OnClick(R.id.btnLogin)
-    public void doLogin(View v){
+    public void doLogin(){
+
+        Log.i("login","doLogin");
         String login = tilLogin.getEditText().getText().toString();
         String password = tilSenha.getEditText().getText().toString();
 
         if(!login.equals("") && !password.equals("") ){
-            if(db.login(new User(login,password))){
-                startActivity(new Intent(v.getContext(), MainActivity.class));
+            if(db.getLogin(new User(login,password))!=null){
+                if (cbKeep.isChecked()){
+                    Log.i("login","Is checked");
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("username", login).commit();
+                    editor.putString("password", password).commit();
+                    editor.commit();
+                }
+
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }else{
-                // exemplo no textinput
-                tilLogin.setError("usuário errado.");
-                // exemplo no próprio edittext
-                tilSenha.getEditText().setError("senha errada");
+                tilLogin.getEditText().setError(getResources().getString(R.string.wrong_login));
+                tilSenha.getEditText().setError(getResources().getString(R.string.wrong_password));
             }
         }
     }

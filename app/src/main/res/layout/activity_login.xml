@@ -48,6 +48,13 @@
             android:textColor="@color/teal"/>
     </android.support.design.widget.TextInputLayout>
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/keep_sign"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/cbKeep"/>
+
 
     <Button
         android:id="@+id/btnLogin"
