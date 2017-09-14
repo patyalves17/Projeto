@@ -3,9 +3,6 @@ package com.projeto.patyalves.projeto.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -16,31 +13,25 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.projeto.patyalves.projeto.MainActivity;
-import com.projeto.patyalves.projeto.PlaceDetailFragment;
-import com.projeto.patyalves.projeto.PlacesFragment;
-import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.R;
-import com.squareup.picasso.Picasso;
+import com.projeto.patyalves.projeto.model.Local;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.projeto.patyalves.projeto.PlacesFragment.*;
-
 /**
  * Created by abceducation on 18/08/17.
  */
 
-public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHolder>{
+public class LocalVisitedAdapter extends RecyclerView.Adapter<LocalVisitedAdapter.LocalViewHolder>{
 
     private List<Local> locais;
     private Context context;
     private OnItemClickListener listener;
 
-    public LocalAdapter(Context context, List<Local> locais, OnItemClickListener listener){
+    public LocalVisitedAdapter(Context context, List<Local> locais, OnItemClickListener listener){
         this.context=context;
         this.locais=locais;
         this.listener = listener;
@@ -49,7 +40,7 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
     @Override
     public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View meuLayout = inflater.inflate(R.layout.local_row, parent,false);
+        View meuLayout = inflater.inflate(R.layout.visited_row, parent,false);
         return new LocalViewHolder(meuLayout);
     }
 
@@ -58,17 +49,29 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
         holder.tvNome.setText(locais.get(position).getName());
         holder.tvBairro.setText(locais.get(position).getBairro());
 
-        if(locais.get(position).getImagem()!=null){
+        if(locais.get(position).getMyRate()!=null){
+            holder.myRatingBar.setRating(Float.parseFloat( locais.get(position).getMyRate().toString()));
+        }else{
+            holder.myRatingBar.setRating(Float.parseFloat(String.valueOf(0)));
+        }
+
+        if(locais.get(position).getImagem()!=null && holder.tvFoto!=null && !locais.get(position).getImagem().isEmpty()){
             byte[] decodedString = Base64.decode(locais.get(position).getImagem(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            Log.i("imagem", "clickou" + decodedByte);
+            Log.i("imagem", "clickou" + decodedByte);
+
+
+            //Bitmap.createScaledBitmap(decodedByte, 400, 400, true);
             holder.tvFoto.setImageBitmap(Bitmap.createScaledBitmap(decodedByte, 400, 400, true));
         }
 
 
-
-
     //    holder.tvFoto.setImageBitmap(Bitmap.createBitmap(decodedByte));
-        holder.ratingBar.setRating(Float.parseFloat( locais.get(position).getRate().toString()));
+        if(locais.get(position).getMycomentario()!=null) {
+            holder.tvMyComentario.setText(locais.get(position).getMycomentario().toString());
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +98,9 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
         @BindView(R.id.tvNome) TextView tvNome;
         @BindView(R.id.tvBairro) TextView tvBairro;
         @BindView(R.id.tvFoto) ImageView tvFoto;
-        @BindView(R.id.ratingBar) RatingBar ratingBar;
+        @BindView(R.id.myRatingBar) RatingBar myRatingBar;
+        @BindView(R.id.tvMyComentario) TextView tvMyComentario;
+
 
 
 

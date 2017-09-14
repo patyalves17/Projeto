@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.projeto.patyalves.projeto.Util.DBHandlerP;
 import com.projeto.patyalves.projeto.adapter.LocalAdapter;
 import com.projeto.patyalves.projeto.api.APIUtils;
 import com.projeto.patyalves.projeto.api.LocalsAPI;
@@ -47,11 +49,12 @@ public class PlaceDetailFragment extends Fragment {
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.fab1) FloatingActionButton fab1;
     @BindView(R.id.fab2) FloatingActionButton fab2;
+    @BindView(R.id.fab3) FloatingActionButton fab3;
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     private BroadcastReceiver mReceiver;
-
+    private DBHandlerP db;
 
     public PlaceDetailFragment() {
         // Required empty public constructor
@@ -64,6 +67,8 @@ public class PlaceDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_place_detail,container,false);
         ButterKnife.bind(this,view);
+        db=new DBHandlerP(getContext());
+
         Bundle bundle=getArguments();
          id = bundle.getLong("localId",0);
         Log.i("carregaLocais", "Fragment 2 --> "+id.toString());
@@ -102,13 +107,6 @@ public class PlaceDetailFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse(uri));
 //        if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
 //            return;
 //        }
         startActivity(intent);
@@ -131,6 +129,18 @@ public class PlaceDetailFragment extends Fragment {
         // ft.replace(R.id.content_main,fragment).addToBackStack(null);
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @OnClick(R.id.fab3)
+    public void click3(View view){
+//        Log.i("SalvaLocais", "salvar o id " +local.getId());
+//        local.setImagem("");
+//        long idSalve=db.createLocal(local);
+//        Log.i("SalvaLocais", "salvou!!!!! ..." + idSalve);
+
+
+
+
     }
 
     private void loadDetails(){
@@ -162,8 +172,10 @@ public class PlaceDetailFragment extends Fragment {
             fab.startAnimation(rotate_backward);
             fab1.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
+            fab3.startAnimation(fab_close);
             fab1.setClickable(false);
             fab2.setClickable(false);
+            fab3.setClickable(false);
             isFabOpen = false;
             Log.d("Raj", "close");
 
@@ -172,8 +184,10 @@ public class PlaceDetailFragment extends Fragment {
             fab.startAnimation(rotate_forward);
             fab1.startAnimation(fab_open);
             fab2.startAnimation(fab_open);
+            fab3.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
+            fab3.setClickable(true);
             isFabOpen = true;
             Log.d("Raj","open");
 

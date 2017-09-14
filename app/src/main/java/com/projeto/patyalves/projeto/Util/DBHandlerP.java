@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.model.User;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class DBHandlerP extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "DatabaseHelper";
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
     private static final String DATABASE_NAME = "matchplaces";
@@ -47,6 +48,8 @@ public class DBHandlerP extends SQLiteOpenHelper {
     private static final String KEY_BAIRRO = "bairro";
     private static final String KEY_IMAGEM = "imagem";
     private static final String KEY_RATE = "rate";
+    private static final String KEY_MYRATE = "myRate";
+    private static final String KEY_MYCOMENTARIO = "myComentario";
 
     // Table Create Statements
     // Todo table create statement
@@ -63,7 +66,11 @@ public class DBHandlerP extends SQLiteOpenHelper {
             + KEY_NAME + " TEXT,"
             + KEY_BAIRRO + " TEXT,"
             + KEY_IMAGEM + " BLOB,"
-            + KEY_RATE + " REAL" + ")";
+            + KEY_RATE + " REAL,"
+            + KEY_MYRATE + " REAL,"
+            + KEY_MYCOMENTARIO + " TEXT" + ")";
+
+
 
     public DBHandlerP(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -258,5 +265,107 @@ public class DBHandlerP extends SQLiteOpenHelper {
         db.delete(TABLE_USER, KEY_ID + " = ?",
                 new String[] { String.valueOf(user_id) });
     }
-}
 
+    /*
+* Creating a user
+*/
+    public long createLocal(Local local) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_IDLOCAL,local.getId());
+        values.put(KEY_NAME,local.getName());
+        values.put(KEY_BAIRRO,local.getBairro());
+        values.put(KEY_IMAGEM,local.getImagem());
+        values.put(KEY_RATE,local.getRate());
+        values.put(KEY_MYRATE,local.getMyRate());
+        values.put(KEY_MYCOMENTARIO,local.getMycomentario());
+
+
+        // insert row
+        long local_id = db.insert(TABLE_LOCAL, null, values);
+
+        return local_id;
+    }
+
+    public List<Local> getAllPlaces() {
+        List<Local> locais = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOCAL;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Local local = new Local();
+                local.setId(c.getLong(c.getColumnIndex(KEY_IDLOCAL)));
+                local.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+
+                local.setBairro(c.getString(c.getColumnIndex(KEY_BAIRRO)));
+                local.setImagem(c.getString(c.getColumnIndex(KEY_IMAGEM)));
+                local.setRate(c.getDouble(c.getColumnIndex(KEY_RATE)));
+                local.setMyRate(c.getDouble(c.getColumnIndex(KEY_MYRATE)));
+                local.setMycomentario(c.getString(c.getColumnIndex(KEY_MYCOMENTARIO)));
+
+
+                // adding to todo list
+                locais.add(local);
+            } while (c.moveToNext());
+        }
+
+        return locais;
+    }
+
+    /*
+* get single user
+*/
+    public Local getLocal(Long localId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_LOCAL + " WHERE "
+                + KEY_IDLOCAL + " = " + localId;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null && c.getCount()>0) {
+            c.moveToFirst();
+            Local local = new Local();
+            local.setId(c.getLong(c.getColumnIndex(KEY_IDLOCAL)));
+            local.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+
+            local.setName(c.getString(c.getColumnIndex(KEY_BAIRRO)));
+            local.setBairro(c.getString(c.getColumnIndex(KEY_IMAGEM)));
+            local.setRate(c.getDouble(c.getColumnIndex(KEY_RATE)));
+            local.setMyRate(c.getDouble(c.getColumnIndex(KEY_MYRATE)));
+            local.setMycomentario(c.getString(c.getColumnIndex(KEY_MYCOMENTARIO)));
+            return local;
+        }else{
+            Log.i("carregaUser","tem Nada aqui para ver.");
+            return null;
+        }
+
+    }
+
+    public int updateLocal(Local local) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_IDLOCAL,local.getId());
+        values.put(KEY_NAME,local.getName());
+        values.put(KEY_BAIRRO,local.getBairro());
+        values.put(KEY_IMAGEM,local.getImagem());
+        values.put(KEY_RATE,local.getRate());
+        values.put(KEY_MYRATE,local.getMyRate());
+        values.put(KEY_MYCOMENTARIO,local.getMycomentario());
+
+        // updating row
+        return db.update(TABLE_LOCAL, values, KEY_IDLOCAL + " = ?",
+                new String[] { String.valueOf(local.getId()) });
+    }
+
+}

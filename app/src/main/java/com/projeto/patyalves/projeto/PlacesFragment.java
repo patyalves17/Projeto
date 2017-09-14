@@ -1,9 +1,9 @@
 package com.projeto.patyalves.projeto;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -96,17 +96,24 @@ public class PlacesFragment extends Fragment {
         return new LocalAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(View view, Long localId) {
-                Log.i("carregaLocais", "clicou no --> "+localId.toString());
-                Bundle bundle = new Bundle();
-                bundle.putLong("localId", localId);
-                PlaceDetailFragment fragment=new PlaceDetailFragment();
-                fragment.setArguments(bundle);
+                Log.i("detalheLocal", "clicou no --> "+localId.toString());
+//                Bundle bundle = new Bundle();
+//                bundle.putLong("localId", localId);
+//                PlaceDetailFragment fragment=new PlaceDetailFragment();
+//                fragment.setArguments(bundle);
+//
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.replace(R.id.content_main,fragment);
+//                // ft.replace(R.id.content_main,fragment).addToBackStack(null);
+//                ft.addToBackStack(null);
+//                ft.commit();
 
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_main,fragment);
-                // ft.replace(R.id.content_main,fragment).addToBackStack(null);
-                ft.addToBackStack(null);
-                ft.commit();
+
+                Intent intent = new Intent(getContext(),PlaceDetailActivity.class);
+                intent.putExtra("localId",localId);
+                startActivity(intent);
+
+//                finish();
 
             }
         };

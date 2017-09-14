@@ -18,5 +18,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="places">Places</string>
     <string name="title_activity_maps">Map</string>
-    <string name="keep_sign">Manter conectado</string>
+    <string name="keep_sign">Keep connected</string>
+    <string name="title_activity_place_detail_map">Map</string>
+    <string name="comment">Comment</string>
+    <string name="save">save</string>
 </resources>

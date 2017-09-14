@@ -19,6 +19,7 @@ public class Local {
     private String bairro;
     private String imagem;
     private Double myRate;
+    private String mycomentario;
 
     public Local(){}
     public Local(Long id, String name, String bairro, String imagem, Double rate){
@@ -148,5 +149,13 @@ public class Local {
 
     public void setMyRate(Double myRate) {
         this.myRate = myRate;
+    }
+
+    public String getMycomentario() {
+        return mycomentario;
+    }
+
+    public void setMycomentario(String mycomentario) {
+        this.mycomentario = mycomentario;
     }
 }

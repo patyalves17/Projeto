@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,32 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 
-import com.projeto.patyalves.projeto.Util.DBHandler;
 import com.projeto.patyalves.projeto.Util.DBHandlerP;
 import com.projeto.patyalves.projeto.api.APIUtils;
 import com.projeto.patyalves.projeto.api.LocalsAPI;
-import com.projeto.patyalves.projeto.model.Local;
 import com.projeto.patyalves.projeto.model.User;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -168,14 +146,13 @@ public class MainActivity extends AppCompatActivity
 
             buscaLugares();
 
-//            PlacesFragment placesFragment = new PlacesFragment();
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//
-//            transaction.replace(R.id.content_main, placesFragment);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-
         } else if (id == R.id.nav_gallery) {
+            PlacesVisitedFragment visitedFragment = new PlacesVisitedFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.content_main, visitedFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
         } else if (id == R.id.nav_slideshow) {
 
