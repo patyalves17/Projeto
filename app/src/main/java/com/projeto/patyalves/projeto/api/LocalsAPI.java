@@ -19,6 +19,10 @@ public interface LocalsAPI {
     @GET("locais/lista")
     Call<List<Local>> getLocais();
 
+    @GET("locais/match/{id}")
+    Call<List<Local>> getLocaisPessoa(@Path("id") Long id);
+
+
     @GET("locais/{id}")
     Call<Local> getLocal(@Path("id") Long id);
 

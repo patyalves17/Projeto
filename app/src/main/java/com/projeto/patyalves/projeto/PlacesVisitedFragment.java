@@ -127,6 +127,12 @@ public class PlacesVisitedFragment extends Fragment {
             public void onItemClick(View view, Long localId) {
                 if(!clickLong) {
                     Log.i("visitados", "clicou no --> " + localId.toString());
+
+
+                    Intent intent = new Intent(getContext(),NewVisitedActivity.class);
+                    intent.putExtra("localId",localId);
+                    startActivity(intent);
+
                 }
 
 

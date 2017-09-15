@@ -22,4 +22,11 @@
     <string name="title_activity_place_detail_map">Map</string>
     <string name="comment">Comment</string>
     <string name="save">save</string>
+    <string name="dialogDeleteTitulo">Are you sure?</string>
+    <string name="dialogDeleteMessage">Are you sure that you want to delete this?</string>
+    <string name="visited">Visited</string>
+    <string name="logout">Logout</string>
+    <string name="success">Success</string>
+    <string name="successUser">user created successfully</string>
+    <string name="exist">User already in use</string>
 </resources>

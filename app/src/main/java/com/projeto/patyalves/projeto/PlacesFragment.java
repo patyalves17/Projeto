@@ -2,7 +2,9 @@ package com.projeto.patyalves.projeto;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -121,23 +123,54 @@ public class PlacesFragment extends Fragment {
     }
 
     private void carregaLocais(){
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        Long idPessoa = settings.getLong("idPessoa", 0);
+
+        Log.i("carregaLocais","idPessoa Locais"+ idPessoa);
+
+
         localAPI = APIUtils.getLocalsAPI();
-        Log.i("carregaLocais", "carregando...");
-        localAPI.getLocais().enqueue(new Callback<List<Local>>() {
-            @Override
-            public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
-                if (response.isSuccessful()) {
-                    Log.i("carregaLocais", response.body().toString());
 
-                    localAdapter.update(response.body());
+        if(idPessoa!=0){
+            Log.i("carregaLocais","idPessoa Locais"+ idPessoa);
+            //localAPI = APIUtils.getLocalsAPI();
+            localAPI.getLocaisPessoa(idPessoa).enqueue(new Callback<List<Local>>() {
+                @Override
+                public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                    if (response.isSuccessful()) {
+                        Log.i("carregaLocais", response.body().toString());
+
+                        localAdapter.update(response.body());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Local>> call, Throwable t) {
-                Log.i("carregaLocais", "erro ao carregar dados: "+t.getLocalizedMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Local>> call, Throwable t) {
+                    Log.i("carregaLocais", "erro ao carregar dados: "+t.getLocalizedMessage());
+                }
+            });
+        }else{
+            Log.i("carregaLocais"," All"+ idPessoa);
+            localAPI.getLocais().enqueue(new Callback<List<Local>>() {
+                @Override
+                public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                    if (response.isSuccessful()) {
+                        Log.i("carregaLocais", response.body().toString());
+
+                        localAdapter.update(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Local>> call, Throwable t) {
+                    Log.i("carregaLocais", "erro ao carregar dados: "+t.getLocalizedMessage());
+                }
+            });
+        }
+
+        Log.i("carregaLocais", "carregando...");
+
 
     }
 

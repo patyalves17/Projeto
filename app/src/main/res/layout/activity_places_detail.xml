@@ -3,88 +3,88 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
-android:layout_height="match_parent">
+android:layout_height="match_parent"
+    android:background="@color/white">
 
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <!-- <LinearLayout
+   <LinearLayout
         android:id="@+id/viewA"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.6"
-        android:background="@android:color/holo_purple"
-        android:orientation="horizontal"/>
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivFoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:maxWidth="29dip"
+            android:scaleType="fitXY"
+            android:adjustViewBounds ="true"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/viewB"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.4"
-        android:background="@android:color/holo_orange_light"
-        android:orientation="horizontal"/>-->
+        android:layout_margin="0dp"
+        android:orientation="vertical"
+        android:paddingBottom="50dp"
+
+
+        >
+
+
+        <TextView
+            android:id="@+id/tvNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:padding="20dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:background="@color/teal_light"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textSize="10dp"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="0dp"
+            android:textColor="@color/teal_light"/>
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_light"
+            android:textSize="20dp"
+            android:padding="20dp"
+            android:paddingTop="0dp"
+            android:layout_marginRight="40dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>
-
-   <!-- <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="230dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        android:backgroundTint="@color/logoTeal"
-        android:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_beenhere_black_24dp"
-        app:borderWidth="0dp"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        android:backgroundTint="@color/logoOrange"
-        android:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_map"
-        app:borderWidth="0dp"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="90dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:visibility="invisible"
-        android:backgroundTint="@color/logoPink"
-        android:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:src="@drawable/ic_phone"
-        app:borderWidth="0dp"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:elevation="6dp"
-        android:backgroundTint="@color/teal"
-        app:pressedTranslationZ="12dp"
-        android:layout_margin="@dimen/fab_margin"
-        app:borderWidth="0dp"
-        android:visibility="invisible"
-        android:src="@drawable/ic_more_vert" />
-
-    -->
+    </ScrollView>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
@@ -109,7 +109,7 @@ android:layout_height="match_parent">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/logoTeal"
-            app:fab_title="Visitei"
+            app:fab_title="I visited"
             android:src="@drawable/ic_beenhere_black_24dp"
             app:fab_colorPressed="@color/logoTeal"
             android:onClick="visitei"/>
@@ -119,7 +119,7 @@ android:layout_height="match_parent">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/logoPink"
-            app:fab_title="Ligar"
+            app:fab_title="Call"
             app:fab_colorPressed="@color/logoPink"
             android:src="@drawable/ic_phone"
             android:onClick="ligar"
@@ -130,7 +130,7 @@ android:layout_height="match_parent">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/logoOrange"
-            app:fab_title="Localização"
+            app:fab_title="View map"
             app:fab_colorPressed="@color/logoOrange"
             android:src="@drawable/ic_map"
             android:onClick="mapa"/>

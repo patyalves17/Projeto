@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.projeto.patyalves.projeto.Util.DBHandler;
+import com.projeto.patyalves.projeto.Util.DBHandlerP;
 import com.projeto.patyalves.projeto.model.User;
 
 import butterknife.BindView;
@@ -21,14 +22,14 @@ public class NewUserActivity extends AppCompatActivity {
     TextInputLayout tilLogin;
     @BindView(R.id.tilSenha) TextInputLayout tilSenha;
 
-    private DBHandler db;
+    private DBHandlerP db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
         ButterKnife.bind(this);
-        db=new DBHandler(this);
+        db=new DBHandlerP(this);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
        // ((ActionBarActivity)getActivity()).getSupportActionBar().
 
@@ -46,13 +47,30 @@ public class NewUserActivity extends AppCompatActivity {
         Log.i("User",password);
 
         if(!login.equals("") && !password.equals("") ){
-            db.addOnce(new User(login,password));
-            Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(NewUserActivity.this, LoginActivity.class));
-             finish();
+
+
+            User UserSearch=db.getUser(new User(login,password));
+            if(UserSearch!=null){
+                Log.i("carregaUser","existe");
+                tilLogin.getEditText().setError(getResources().getString(R.string.exist));
+            }else{
+                Log.i("carregaUser","nao existe");
+                long idSalve=db.createUser(new User(login,password));
+                if(idSalve!=-1){
+                    Toast.makeText(getApplicationContext(), R.string.successUser, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, LoginActivity.class));
+                    this.finish();
+                    Log.i("carregaUser",idSalve+" Salvo com sucesso.");
+                }
+            }
+
+//            db.addOnce(new User(login,password));
+//            Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+//            startActivity(new Intent(NewUserActivity.this, LoginActivity.class));
+//             finish();
         }
 
-        db.getAllUsers();
+//        db.getAllUsers();
 
     }
 

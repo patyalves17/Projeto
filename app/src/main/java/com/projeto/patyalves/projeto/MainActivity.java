@@ -75,10 +75,16 @@ public class MainActivity extends AppCompatActivity
             User UserSearch=db.getUser(userT);
             if(UserSearch!=null){
                 Log.i("Twitter","existe");
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
-                Long idPessoa = settings.getLong("idPessoa", 0);
+//                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+//                Long idPessoa = settings.getLong("idPessoa", 0);
+//
+//                Log.i("Twitter","idPessoa"+ idPessoa);
 
-                Log.i("Twitter","idPessoa"+ idPessoa);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplication());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putLong("idPessoa", UserSearch.getIdpessoa()).commit();
+                editor.commit();
+
                 buscaLugares();
             }else{
                 Log.i("Twitter","Nop existe");
@@ -154,13 +160,7 @@ public class MainActivity extends AppCompatActivity
             transaction.addToBackStack(null);
             transaction.commit();
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             Log.i("TwitterLogout", "TwitterLogout");
             TwitterCore.getInstance().getSessionManager().clearActiveSession();
 
@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity
                                 SharedPreferences.Editor editor = settings.edit();
                                 editor.putLong("idPessoa", userT.getIdpessoa()).commit();
                                 editor.commit();
+
 
 //                                User userProfile=new User();
 //                                userProfile.setIdpessoa(response.body().getIdpessoa());

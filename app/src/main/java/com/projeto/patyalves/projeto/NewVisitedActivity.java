@@ -59,6 +59,16 @@ public class NewVisitedActivity extends AppCompatActivity {
 //                    Log.i("detalheLocal",response.body().getName());
 //                    Log.i("detalheLocal",response.body().getBairro());
                     local=response.body();
+
+                    Local localE=db.getLocal(id);
+                    if(localE!=null){
+                        local.setMycomentario(localE.getMycomentario());
+                        local.setMyRate(localE.getMyRate());
+
+                        myRatingBar.setRating(Float.parseFloat(local.getMyRate().toString()));
+                        tilMyComentario.getEditText().setText(local.getMycomentario());
+                    }
+
                 }
             }
 
