@@ -58,12 +58,6 @@ public class LocalVisitedAdapter extends RecyclerView.Adapter<LocalVisitedAdapte
         if(locais.get(position).getImagem()!=null && holder.tvFoto!=null && !locais.get(position).getImagem().isEmpty()){
             byte[] decodedString = Base64.decode(locais.get(position).getImagem(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-            Log.i("imagem", "clickou" + decodedByte);
-            Log.i("imagem", "clickou" + decodedByte);
-
-
-            //Bitmap.createScaledBitmap(decodedByte, 400, 400, true);
             holder.tvFoto.setImageBitmap(Bitmap.createScaledBitmap(decodedByte, 400, 400, true));
         }
 
