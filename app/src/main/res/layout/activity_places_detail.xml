@@ -28,7 +28,7 @@ android:layout_height="match_parent">
 
 </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+   <!-- <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,6 +81,60 @@ android:layout_height="match_parent">
         app:pressedTranslationZ="12dp"
         android:layout_margin="@dimen/fab_margin"
         app:borderWidth="0dp"
+        android:visibility="invisible"
         android:src="@drawable/ic_more_vert" />
+
+    -->
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:fab_addButtonColorNormal="@color/teal"
+        app:fab_addButtonColorPressed="@color/teal"
+        app:fab_addButtonPlusIconColor="@color/white"
+        app:fab_labelStyle="@style/menu_labels_style"
+
+        app:borderWidth="0dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+
+        >
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabVisitei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/logoTeal"
+            app:fab_title="Visitei"
+            android:src="@drawable/ic_beenhere_black_24dp"
+            app:fab_colorPressed="@color/logoTeal"
+            android:onClick="visitei"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabLigar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/logoPink"
+            app:fab_title="Ligar"
+            app:fab_colorPressed="@color/logoPink"
+            android:src="@drawable/ic_phone"
+            android:onClick="ligar"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/logoOrange"
+            app:fab_title="Localização"
+            app:fab_colorPressed="@color/logoOrange"
+            android:src="@drawable/ic_map"
+            android:onClick="mapa"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

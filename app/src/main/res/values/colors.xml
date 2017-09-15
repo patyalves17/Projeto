@@ -29,5 +29,6 @@
     <color name="logoPink">#ff7897</color>
     <color name="logoTeal">#00cad4</color>
     <color name="logoOrange">#ffbb47</color>
+    <color name="black_semi_transparent">#B2000000</color>
 
 </resources>
