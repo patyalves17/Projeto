@@ -368,4 +368,17 @@ public class DBHandlerP extends SQLiteOpenHelper {
                 new String[] { String.valueOf(local.getId()) });
     }
 
+    /*
+* Deleting a user
+*/
+    public int deleteLocal(long local_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int delete = db.delete(TABLE_LOCAL, KEY_IDLOCAL + " = ?",
+                new String[]{String.valueOf(local_id)});
+
+        Log.i("visitados", "deletaaaaa--> "+delete);
+
+        return delete;
+    }
+
 }

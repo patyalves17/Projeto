@@ -56,7 +56,9 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
     @Override
     public void onBindViewHolder(LocalViewHolder holder, final int position) {
         holder.tvNome.setText(locais.get(position).getName());
-        holder.tvBairro.setText(locais.get(position).getBairro());
+        if(locais.get(position).getBairro()!=null){
+            holder.tvBairro.setText(locais.get(position).getBairro());
+        }
 
         if(locais.get(position).getImagem()!=null){
             byte[] decodedString = Base64.decode(locais.get(position).getImagem(), Base64.DEFAULT);
@@ -64,11 +66,12 @@ public class LocalAdapter  extends RecyclerView.Adapter<LocalAdapter.LocalViewHo
             holder.tvFoto.setImageBitmap(Bitmap.createScaledBitmap(decodedByte, 400, 400, true));
         }
 
-
-
+        if(locais.get(position).getRate()!=null){
+            holder.ratingBar.setRating(Float.parseFloat( locais.get(position).getRate().toString()));
+        }
 
     //    holder.tvFoto.setImageBitmap(Bitmap.createBitmap(decodedByte));
-        holder.ratingBar.setRating(Float.parseFloat( locais.get(position).getRate().toString()));
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

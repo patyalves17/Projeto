@@ -55,9 +55,9 @@ public class NewVisitedActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Local> call, Response<Local> response) {
                 if (response.isSuccessful()) {
-                    Log.i("detalheLocal", response.body().toString());
-                    Log.i("detalheLocal",response.body().getName());
-                    Log.i("detalheLocal",response.body().getBairro());
+//                    Log.i("detalheLocal", response.body().toString());
+//                    Log.i("detalheLocal",response.body().getName());
+//                    Log.i("detalheLocal",response.body().getBairro());
                     local=response.body();
                 }
             }

@@ -1,8 +1,11 @@
 package com.projeto.patyalves.projeto.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -30,11 +33,18 @@ public class LocalVisitedAdapter extends RecyclerView.Adapter<LocalVisitedAdapte
     private List<Local> locais;
     private Context context;
     private OnItemClickListener listener;
+    private OnLongClickListener longListener;
 
-    public LocalVisitedAdapter(Context context, List<Local> locais, OnItemClickListener listener){
+//    public LocalVisitedAdapter(Context context, List<Local> locais, OnItemClickListener listener){
+//        this.context=context;
+//        this.locais=locais;
+//        this.listener = listener;
+//    }
+    public LocalVisitedAdapter(Context context, List<Local> locais, OnItemClickListener listener,OnLongClickListener longListener){
         this.context=context;
         this.locais=locais;
         this.listener = listener;
+        this.longListener=longListener;
     }
 
     @Override
@@ -76,6 +86,56 @@ public class LocalVisitedAdapter extends RecyclerView.Adapter<LocalVisitedAdapte
                 listener.onItemClick(v,locais.get(position).getId());
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                final View view=v;
+
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(context);
+                }
+                builder.setTitle("Are you sure?")
+                        .setMessage("Are you sure that you want to delete this?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.i("visitados", "clicou Yes");
+                                longListener.onLongClick(view,locais.get(position).getId());
+                                locais.remove(position);
+                                notifyItemRemoved(position);
+                                //this line below gives you the animation and also updates the
+                                //list items after the deleted item
+                                notifyItemRangeChanged(position, getItemCount());
+                                notifyDataSetChanged();
+
+                                // deleteItem();
+                                // exit
+                                //MainActivity.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                                Log.i("visitados", "clicou NO");
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+
+//                Log.i("carregaLocais", "clickou");
+//                Log.i("carregaLocais", "position "+locais.get(position).getName());
+//
+//                longListener.onLongClick(v,locais.get(position).getId());
+                return false;
+            }
+        });
+
     }
 
 
@@ -112,5 +172,10 @@ public class LocalVisitedAdapter extends RecyclerView.Adapter<LocalVisitedAdapte
 
     public interface OnItemClickListener {
         public void onItemClick(View view, Long localId);
+
+    }
+
+    public interface OnLongClickListener {
+        public void onLongClick(View view, Long localId);
     }
 }

@@ -214,7 +214,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.i("detalheLocal", response.body().toString());
                     Log.i("detalheLocal",response.body().getName());
-                    Log.i("detalheLocal",response.body().getBairro());
+                   // Log.i("detalheLocal",response.body().getBairro());
                     local=response.body();
                 }
             }
