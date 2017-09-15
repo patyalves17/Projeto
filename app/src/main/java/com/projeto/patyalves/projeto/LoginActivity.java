@@ -18,6 +18,7 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -90,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                 TwitterAuthToken authToken = session.getAuthToken();
                 String token = authToken.token;
                 String secret = authToken.secret;
+
+
 
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
