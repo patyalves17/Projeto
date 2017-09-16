@@ -7,7 +7,7 @@ package com.projeto.patyalves.projeto.api;
 public class APIUtils {
     private APIUtils() {}
     public static final String BASE_URL = "http://www.mocky.io";
-    public static final String BASE_URL_servidor = "http:/ec2-54-233-173-187.sa-east-1.compute.amazonaws.com:8080/api/";
+    public static final String BASE_URL_servidor = "http:/ec2-52-67-194-73.sa-east-1.compute.amazonaws.com:8080/api/";
 
 
     public static UsersAPI getUserAPI() {

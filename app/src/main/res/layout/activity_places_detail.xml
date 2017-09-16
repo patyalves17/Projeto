@@ -135,6 +135,16 @@ android:layout_height="match_parent"
             android:src="@drawable/ic_map"
             android:onClick="mapa"/>
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/deep_orange"
+            app:fab_title="Share"
+            app:fab_colorPressed="@color/deep_orange"
+            android:src="@drawable/ic_menu_share"
+            android:onClick="share"/>
+
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

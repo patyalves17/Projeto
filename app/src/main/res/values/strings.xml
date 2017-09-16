@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Projeto</string>
+    <string name="app_name">Match Places</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -26,7 +26,13 @@
     <string name="dialogDeleteMessage">Are you sure that you want to delete this?</string>
     <string name="visited">Visited</string>
     <string name="logout">Logout</string>
-    <string name="success">Success</string>
+    <string name="success">Operation success</string>
     <string name="successUser">user created successfully</string>
     <string name="exist">User already in use</string>
+    <string name="texto">Look at this place:</string>
+    <string name="shareVia">Share via</string>
+    <string name="about">About</string>
+    <string name="desenvolvedor">Developer</string>
+    <string name="developerName">Patricia Alves Almeida</string>
+    <string name="version">Version 1.0</string>
 </resources>

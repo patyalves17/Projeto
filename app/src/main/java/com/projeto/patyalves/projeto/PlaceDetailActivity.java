@@ -79,6 +79,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
         final View fabMapa = findViewById(R.id.fabMapa);
         final View fabLigar = findViewById(R.id.fabLigar);
         final View fabVisitei = findViewById(R.id.fabVisitei);
+        final View fabShare = findViewById(R.id.fabShare);
+
+
         ivFoto = (ImageView) findViewById(R.id.ivFoto);
         tvNome = (TextView) findViewById(R.id.tvNome);
         tvAddress = (TextView) findViewById(R.id.tvAddress);
@@ -93,6 +96,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         Log.i("detalheLocal", "clicou no  visitei");
         Intent intent = new Intent(this,NewVisitedActivity.class);
         intent.putExtra("localId",local.getId());
+        this.finish();
         startActivity(intent);
     }
 
@@ -124,6 +128,34 @@ public class PlaceDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void share(View v){
+        Log.i("detalheLocal", "clicou no  Share");
+        String site="";
+        if(local.getWebsite()!=null && !local.getWebsite().isEmpty()){
+            site=local.getWebsite();
+        }
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = this.getString(R.string.texto)+ " "+ local.getName() + " "+site;
+//
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Match Places");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent,this.getString(R.string.shareVia)));
+
+
+//        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+//        share.setType("text/plain");
+//        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//
+//        // Add data to the intent, the receiving app will decide
+//        // what to do with it.
+//        share.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.was_here));
+//        share.putExtra(Intent.EXTRA_TEXT, local.getName());
+//
+//        fragmentActivity.startActivity(Intent.createChooser(share, mContext.getString(R.string.share_location)));
+
+    }
 
     private void loadDetails(){
 

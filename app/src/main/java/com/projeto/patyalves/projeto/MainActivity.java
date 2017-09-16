@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -170,6 +170,14 @@ public class MainActivity extends AppCompatActivity
 
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+        }else if (id == R.id.nav_about) {
+            AboutFragment visitedFragment = new AboutFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.content_main, visitedFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

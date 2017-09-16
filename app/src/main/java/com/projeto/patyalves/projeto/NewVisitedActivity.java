@@ -1,13 +1,17 @@
 package com.projeto.patyalves.projeto;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.projeto.patyalves.projeto.Util.DBHandlerP;
 import com.projeto.patyalves.projeto.api.APIUtils;
@@ -39,6 +43,8 @@ public class NewVisitedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         db=new DBHandlerP(this);
 
+        tilMyComentario.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+        tilMyComentario.getEditText().setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         Bundle bundle=getIntent().getExtras();
         id=bundle.getLong("localId");
@@ -90,24 +96,25 @@ public class NewVisitedActivity extends AppCompatActivity {
            // local.setImagem("");
             long idSalve=db.updateLocal(local);
             Log.i("SalvaLocais", "salvou!!!!! ..." + idSalve);
+            Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this,PlaceDetailActivity.class);
+            intent.putExtra("localId",local.getId());
+            startActivity(intent);
+            this.finish();
+
         }else{
             Log.i("SalvaLocais", "salvar o id " +local.getId());
 //            local.setImagem("");
             long idSalve=db.createLocal(local);
             Log.i("SalvaLocais", "salvou!!!!! ..." + idSalve);
+            Toast.makeText(getApplicationContext(), R.string.success, Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this,PlaceDetailActivity.class);
+            intent.putExtra("localId",local.getId());
+            startActivity(intent);
+            this.finish();
         }
-
-//        Log.i("SalvaLocais", "salvar o id " +local.getId());
-//        Log.i("SalvaLocais", "Comentario " +tilMyComentario.getEditText().getText());
-//        Log.i("SalvaLocais", "rating " +myRatingBar.getRating());
-//
-//
-//
-//        local.setImagem("");
-//        long idSalve=db.createLocal(local);
-//        Log.i("SalvaLocais", "salvou!!!!! ..." + idSalve);
-
-
 
 
     }
